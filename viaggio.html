@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#f7f5f0"
+    >
+
+    <title>Viaggio — ROAM</title>
+
+    <link
+        rel="stylesheet"
+        href="css/global.css"
+    >
+
+    <style>
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-bottom: 25px;
+
+            background: transparent;
+
+            color: var(--text-secondary);
+
+            font-size: 13px;
+        }
+
+
+        .trip-hero {
+            padding: 28px;
+
+            margin-bottom: 25px;
+
+            border-radius: var(--radius-lg);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #dad5cb,
+                    #69655f
+                );
+
+            color: white;
+        }
+
+
+        .trip-hero .eyebrow {
+            color: rgba(255,255,255,.6);
+        }
+
+
+        .trip-hero h1 {
+            margin-bottom: 8px;
+        }
+
+
+        .trip-hero p {
+            color: rgba(255,255,255,.75);
+
+            font-size: 13px;
+        }
+
+
+        .countdown {
+            display: inline-flex;
+
+            margin-top: 18px;
+
+            padding: 8px 11px;
+
+            border-radius: 999px;
+
+            background: rgba(255,255,255,.14);
+
+            backdrop-filter: blur(10px);
+
+            font-size: 11px;
+        }
+
+
+        .feature-grid {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 10px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .feature-card {
+            min-height: 135px;
+
+            padding: 18px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            text-align: left;
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius-md);
+
+            background: var(--surface);
+        }
+
+
+        .feature-icon {
+            width: 38px;
+            height: 38px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 12px;
+
+            background: var(--surface-soft);
+
+            font-size: 18px;
+        }
+
+
+        .feature-card strong {
+            font-size: 14px;
+        }
+
+
+        .feature-card small {
+            color: var(--text-secondary);
+
+            font-size: 11px;
+        }
+
+
+        .summary-list {
+            overflow: hidden;
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius-md);
+
+            background: var(--surface);
+        }
+
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 16px;
+
+            border-bottom: 1px solid var(--border);
+
+            font-size: 13px;
+        }
+
+
+        .summary-row:last-child {
+            border-bottom: 0;
+        }
+
+
+        .summary-label {
+            color: var(--text-secondary);
+        }
+
+
+        .delete-trip {
+            width: 100%;
+            height: 50px;
+
+            margin-top: 25px;
+
+            border-radius: 14px;
+
+            background: transparent;
+
+            border: 1px solid rgba(180,40,40,.15);
+
+            color: #8a3939;
+
+            font-size: 12px;
+        }
+
+
+        @media (min-width: 700px) {
+
+            .feature-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<main class="app">
+
+    <button
+        class="back-button"
+        onclick="history.back()"
+    >
+        ← Torna ai viaggi
+    </button>
+
+
+    <div id="tripContent"></div>
+
+</main>
+
+
+<nav class="bottom-nav">
+
+    <a href="index.html" class="nav-item">
+        <span class="nav-icon">⌂</span>
+        <span>Home</span>
+    </a>
+
+    <a href="esplora.html" class="nav-item">
+        <span class="nav-icon">⌕</span>
+        <span>Esplora</span>
+    </a>
+
+    <a href="viaggi.html" class="nav-item active">
+        <span class="nav-icon">◈</span>
+        <span>Viaggi</span>
+    </a>
+
+    <a href="rullino.html" class="nav-item">
+        <span class="nav-icon">▣</span>
+        <span>Rullino</span>
+    </a>
+
+    <a href="profilo.html" class="nav-item">
+        <span class="nav-icon">○</span>
+        <span>Profilo</span>
+    </a>
+
+</nav>
+
+
+<script src="js/storage.js"></script>
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        loadCurrentTrip
+    );
+
+
+    function loadCurrentTrip() {
+
+        const tripId =
+            localStorage.getItem(
+                "roam_current_trip"
+            );
+
+
+        if (!tripId) {
+
+            window.location.href =
+                "viaggi.html";
+
+            return;
+
+        }
+
+
+        const trip =
+            getTrips().find(
+                item => item.id === tripId
+            );
+
+
+        if (!trip) {
+
+            window.location.href =
+                "viaggi.html";
+
+            return;
+
+        }
+
+
+        renderTrip(trip);
+
+    }
+
+
+    function renderTrip(trip) {
+
+        const container =
+            document.getElementById(
+                "tripContent"
+            );
+
+
+        const start =
+            new Date(trip.startDate);
+
+        const end =
+            new Date(trip.endDate);
+
+
+        const days =
+            Math.max(
+                1,
+                Math.ceil(
+                    (
+                        end - start
+                    ) /
+                    (1000 * 60 * 60 * 24)
+                )
+            );
+
+
+        const countdown =
+            getCountdown(trip.startDate);
+
+
+        const expenses =
+            trip.expenses?.length || 0;
+
+
+        const places =
+            trip.places?.length || 0;
+
+
+        const photos =
+            trip.photos?.length || 0;
+
+
+        container.innerHTML = `
+
+            <section class="trip-hero">
+
+                <span class="eyebrow">
+                    ${getTripStatus(trip)}
+                </span>
+
+                <h1>
+                    ${escapeHTML(
+                        trip.destination
+                    )}
+                </h1>
+
+                <p>
+                    ${formatDate(trip.startDate)}
+                    —
+                    ${formatDate(trip.endDate)}
+                </p>
+
+                <span class="countdown">
+                    ${countdown}
+                </span>
+
+            </section>
+
+
+            <section class="feature-grid">
+
+                <button
+                    class="feature-card"
+                    onclick="openSection('itinerario')"
+                >
+
+                    <span class="feature-icon">
+                        ◷
+                    </span>
+
+                    <strong>
+                        Itinerario
+                    </strong>
+
+                    <small>
+                        Organizza le tue giornate
+                    </small>
+
+                </button>
+
+
+                <button
+                    class="feature-card"
+                    onclick="openSection('luoghi')"
+                >
+
+                    <span class="feature-icon">
+                        ◉
+                    </span>
+
+                    <strong>
+                        Luoghi
+                    </strong>
+
+                    <small>
+                        ${places} luoghi salvati
+                    </small>
+
+                </button>
+
+
+                <button
+                    class="feature-card"
+                    onclick="openSection('prenotazioni')"
+                >
+
+                    <span class="feature-icon">
+                        □
+                    </span>
+
+                    <strong>
+                        Prenotazioni
+                    </strong>
+
+                    <small>
+                        Voli, hotel e biglietti
+                    </small>
+
+                </button>
+
+
+                <button
+                    class="feature-card"
+                    onclick="openSection('budget')"
+                >
+
+                    <span class="feature-icon">
+                        €
+                    </span>
+
+                    <strong>
+                        Budget
+                    </strong>
+
+                    <small>
+                        €${Number(trip.budget || 0).toFixed(2)}
+                    </small>
+
+                </button>
+
+            </section>
+
+
+            <section class="section">
+
+                <div class="section-heading">
+
+                    <h2>
+                        Riepilogo
+                    </h2>
+
+                </div>
+
+
+                <div class="summary-list">
+
+                    <div class="summary-row">
+
+                        <span class="summary-label">
+                            Durata
+                        </span>
+
+                        <strong>
+                            ${days} giorni
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span class="summary-label">
+                            Luoghi
+                        </span>
+
+                        <strong>
+                            ${places}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span class="summary-label">
+                            Foto
+                        </span>
+
+                        <strong>
+                            ${photos}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span class="summary-label">
+                            Spese registrate
+                        </span>
+
+                        <strong>
+                            ${expenses}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <button
+                class="delete-trip"
+                onclick="deleteCurrentTrip('${trip.id}')"
+            >
+                Elimina questo viaggio
+            </button>
+
+        `;
+
+    }
+
+
+    function getCountdown(startDate) {
+
+        const start =
+            new Date(startDate);
+
+        const now =
+            new Date();
+
+
+        const diff =
+            start - now;
+
+
+        if (diff <= 0) {
+
+            return "Il viaggio è iniziato";
+
+        }
+
+
+        const days =
+            Math.ceil(
+                diff /
+                (1000 * 60 * 60 * 24)
+            );
+
+
+        if (days === 1) {
+            return "Parti domani";
+        }
+
+
+        return `Mancano ${days} giorni`;
+
+    }
+
+
+    function getTripStatus(trip) {
+
+        const now = new Date();
+
+        const start =
+            new Date(trip.startDate);
+
+        const end =
+            new Date(trip.endDate);
+
+
+        if (now < start) {
+            return "PROSSIMO VIAGGIO";
+        }
+
+        if (now <= end) {
+            return "VIAGGIO IN CORSO";
+        }
+
+        return "VIAGGIO COMPLETATO";
+
+    }
+
+
+    function openSection(section) {
+
+        alert(
+            `${section} sarà disponibile nel prossimo modulo di ROAM.`
+        );
+
+    }
+
+
+    function deleteCurrentTrip(id) {
+
+        const confirmed =
+            confirm(
+                "Sei sicuro di voler eliminare questo viaggio?"
+            );
+
+
+        if (!confirmed) return;
+
+
+        deleteTrip(id);
+
+        localStorage.removeItem(
+            "roam_current_trip"
+        );
+
+
+        window.location.href =
+            "viaggi.html";
+
+    }
+
+
+    function formatDate(date) {
+
+        return new Date(date)
+            .toLocaleDateString(
+                "it-IT",
+                {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                }
+            );
+
+    }
+
+
+    function escapeHTML(value) {
+
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+
+    }
+
+</script>
+
+</body>
+</html>
