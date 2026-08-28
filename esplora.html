@@ -10,6 +10,11 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <meta
+        name="theme-color"
+        content="#f7f5f0"
+    >
+
     <title>Esplora — ROAM</title>
 
     <link
@@ -17,257 +22,1386 @@
         href="css/global.css"
     >
 
+    <style>
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+
+        .destination-header {
+            margin-bottom: 30px;
+        }
+
+
+        .destination-flag {
+            font-size: 42px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .destination-header h2 {
+            font-size: 38px;
+
+            letter-spacing: -.045em;
+
+            margin-bottom: 7px;
+        }
+
+
+        .destination-country {
+            color: var(--text-secondary);
+
+            font-size: 13px;
+        }
+
+
+        .destination-description {
+            max-width: 650px;
+
+            margin-top: 18px;
+
+            color: var(--text-secondary);
+
+            font-size: 14px;
+
+            line-height: 1.65;
+        }
+
+
+        .info-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 10px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .info-card {
+            padding: 17px;
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius-md);
+
+            background: var(--surface);
+        }
+
+
+        .info-card span {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: var(--text-light);
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            letter-spacing: .08em;
+        }
+
+
+        .info-card strong {
+            font-size: 13px;
+        }
+
+
+        .explore-section {
+            margin-bottom: 35px;
+        }
+
+
+        .explore-section-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 14px;
+        }
+
+
+        .explore-section-header h3 {
+            font-size: 18px;
+
+            letter-spacing: -.025em;
+        }
+
+
+        .explore-section-header span {
+            color: var(--text-light);
+
+            font-size: 11px;
+        }
+
+
+        .place-list {
+            display: grid;
+
+            gap: 9px;
+        }
+
+
+        .place-card {
+            padding: 17px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 16px;
+
+            background: var(--surface);
+        }
+
+
+        .place-main {
+            min-width: 0;
+        }
+
+
+        .place-main strong {
+            display: block;
+
+            margin-bottom: 4px;
+
+            font-size: 14px;
+        }
+
+
+        .place-main small {
+            display: block;
+
+            color: var(--text-secondary);
+
+            font-size: 11px;
+
+            line-height: 1.45;
+        }
+
+
+        .place-price {
+            flex-shrink: 0;
+
+            color: var(--text-secondary);
+
+            font-size: 12px;
+        }
+
+
+        .save-place {
+            flex-shrink: 0;
+
+            width: 36px;
+            height: 36px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 11px;
+
+            background: var(--surface-soft);
+
+            color: var(--text);
+
+            font-size: 17px;
+        }
+
+
+        .neighborhood-list {
+            display: flex;
+
+            gap: 9px;
+
+            overflow-x: auto;
+
+            scrollbar-width: none;
+        }
+
+
+        .neighborhood-list::-webkit-scrollbar {
+            display: none;
+        }
+
+
+        .neighborhood {
+            flex: 0 0 210px;
+
+            padding: 18px;
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius-md);
+
+            background: var(--surface);
+        }
+
+
+        .neighborhood strong {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+        }
+
+
+        .neighborhood p {
+            color: var(--text-secondary);
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+
+        .itinerary-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 9px;
+        }
+
+
+        .itinerary-card {
+            padding: 18px;
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius-md);
+
+            background: var(--surface);
+
+            text-align: left;
+        }
+
+
+        .itinerary-card span {
+            display: block;
+
+            margin-bottom: 20px;
+
+            color: var(--text-light);
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+
+        .itinerary-card strong {
+            font-size: 13px;
+        }
+
+
+        .photo-list {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+        }
+
+
+        .photo-tag {
+            padding: 9px 12px;
+
+            border-radius: 999px;
+
+            background: var(--surface);
+
+            border: 1px solid var(--border);
+
+            color: var(--text-secondary);
+
+            font-size: 11px;
+        }
+
+
+        .add-trip-cta {
+            width: 100%;
+
+            height: 55px;
+
+            margin-top: 5px;
+
+            border-radius: 15px;
+
+            background: var(--text);
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        .search-results {
+            display: grid;
+
+            gap: 9px;
+
+            margin-top: -20px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .search-result {
+            padding: 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 15px;
+
+            background: var(--surface);
+
+            cursor: pointer;
+        }
+
+
+        .search-result-flag {
+            font-size: 25px;
+        }
+
+
+        .search-result strong {
+            display: block;
+
+            font-size: 13px;
+        }
+
+
+        .search-result small {
+            color: var(--text-secondary);
+
+            font-size: 11px;
+        }
+
+
+        @media (min-width: 700px) {
+
+            .info-grid {
+                grid-template-columns:
+                    repeat(4, 1fr);
+            }
+
+            .place-list {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+    </style>
+
 </head>
 
 
 <body>
 
-    <main class="app">
+<main class="app">
 
-        <header class="top-header">
+    <header class="page-header">
 
-            <div>
+        <span class="eyebrow">
+            SCOPRI IL MONDO
+        </span>
 
-                <span class="eyebrow">
-                    SCOPRI
-                </span>
+        <h1>
+            Esplora
+        </h1>
 
-                <h1>
-                    Esplora
-                </h1>
-
-            </div>
-
-        </header>
+    </header>
 
 
-        <div class="hero-search">
+    <div class="hero-search">
 
-            <div class="search-icon">
-                ⌕
-            </div>
-
-            <input
-                id="exploreInput"
-                type="text"
-                placeholder="Cerca una destinazione..."
-            >
-
-            <button onclick="exploreDestination()">
-                →
-            </button>
-
+        <div class="search-icon">
+            ⌕
         </div>
 
+        <input
+            id="exploreInput"
+            type="text"
+            placeholder="Cerca una destinazione..."
+            autocomplete="off"
+        >
 
-        <section class="section">
+        <button onclick="searchDestination()">
+            →
+        </button>
 
-            <div id="exploreContent">
-
-                <div class="empty-state">
-
-                    <strong>
-                        Dove vuoi andare?
-                    </strong>
-
-                    <p>
-                        Cerca una città o una destinazione
-                        per iniziare a esplorare.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
+    </div>
 
 
-    <nav class="bottom-nav">
+    <div id="searchResults"></div>
 
-        <a href="index.html" class="nav-item">
-            <span class="nav-icon">⌂</span>
-            <span>Home</span>
-        </a>
+    <div id="destinationContent"></div>
 
-        <a href="esplora.html" class="nav-item active">
-            <span class="nav-icon">⌕</span>
-            <span>Esplora</span>
-        </a>
-
-        <a href="viaggi.html" class="nav-item">
-            <span class="nav-icon">◈</span>
-            <span>Viaggi</span>
-        </a>
-
-        <a href="rullino.html" class="nav-item">
-            <span class="nav-icon">▣</span>
-            <span>Rullino</span>
-        </a>
-
-        <a href="profilo.html" class="nav-item">
-            <span class="nav-icon">○</span>
-            <span>Profilo</span>
-        </a>
-
-    </nav>
+</main>
 
 
-    <script src="js/storage.js"></script>
-    <script src="js/app.js"></script>
+<nav class="bottom-nav">
 
-    <script>
+    <a href="index.html" class="nav-item">
+        <span class="nav-icon">⌂</span>
+        <span>Home</span>
+    </a>
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            () => {
+    <a href="esplora.html" class="nav-item active">
+        <span class="nav-icon">⌕</span>
+        <span>Esplora</span>
+    </a>
 
-                const savedDestination =
-                    localStorage.getItem(
-                        "roam_explore_destination"
-                    );
+    <a href="viaggi.html" class="nav-item">
+        <span class="nav-icon">◈</span>
+        <span>Viaggi</span>
+    </a>
 
-                if (savedDestination) {
+    <a href="rullino.html" class="nav-item">
+        <span class="nav-icon">▣</span>
+        <span>Rullino</span>
+    </a>
 
-                    document.getElementById(
-                        "exploreInput"
-                    ).value = savedDestination;
+    <a href="profilo.html" class="nav-item">
+        <span class="nav-icon">○</span>
+        <span>Profilo</span>
+    </a>
 
-                    showDestinationPreview(
-                        savedDestination
-                    );
+</nav>
 
-                }
+
+<script src="js/storage.js"></script>
+<script src="data/destinations.js"></script>
+
+
+<script>
+
+    const input =
+        document.getElementById(
+            "exploreInput"
+        );
+
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        () => {
+
+            const saved =
+                localStorage.getItem(
+                    "roam_explore_destination"
+                );
+
+            if (saved) {
+
+                input.value = saved;
+
+                searchDestination();
+
+            }
+
+        }
+    );
+
+
+    input.addEventListener(
+        "input",
+        () => {
+
+            showSearchResults(
+                input.value
+            );
+
+        }
+    );
+
+
+    input.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                searchDestination();
+
+            }
+
+        }
+    );
+
+
+    function normalizeText(text) {
+
+        return text
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(
+                /[\u0300-\u036f]/g,
+                ""
+            )
+            .trim();
+
+    }
+
+
+    function findDestinations(query) {
+
+        const normalized =
+            normalizeText(query);
+
+        if (!normalized) {
+            return [];
+        }
+
+
+        return destinations.filter(
+            destination => {
+
+                const searchable = [
+
+                    destination.name,
+
+                    destination.country,
+
+                    ...destination.aliases
+
+                ]
+                    .map(normalizeText)
+                    .join(" ");
+
+
+                return searchable.includes(
+                    normalized
+                );
 
             }
         );
 
+    }
 
-        function exploreDestination() {
 
-            const input =
-                document.getElementById(
-                    "exploreInput"
-                );
+    function searchDestination() {
 
-            const destination =
-                input.value.trim();
+        const query =
+            input.value.trim();
 
-            if (!destination) {
 
-                input.focus();
+        if (!query) {
 
-                return;
+            input.focus();
 
-            }
-
-            localStorage.setItem(
-                "roam_explore_destination",
-                destination
-            );
-
-            showDestinationPreview(
-                destination
-            );
+            return;
 
         }
 
 
-        function showDestinationPreview(
+        localStorage.setItem(
+            "roam_explore_destination",
+            query
+        );
+
+
+        const results =
+            findDestinations(query);
+
+
+        if (!results.length) {
+
+            renderNotFound(query);
+
+            return;
+
+        }
+
+
+        renderDestination(
+            results[0]
+        );
+
+    }
+
+
+    function showSearchResults(query) {
+
+        const container =
+            document.getElementById(
+                "searchResults"
+            );
+
+
+        if (!query.trim()) {
+
+            container.innerHTML = "";
+
+            return;
+
+        }
+
+
+        const results =
+            findDestinations(query);
+
+
+        if (!results.length) {
+
+            container.innerHTML = "";
+
+            return;
+
+        }
+
+
+        container.innerHTML = `
+
+            <div class="search-results">
+
+                ${results
+                    .map(
+                        destination => `
+
+                            <div
+                                class="search-result"
+                                onclick="selectDestination('${destination.id}')"
+                            >
+
+                                <span class="search-result-flag">
+                                    ${destination.flag}
+                                </span>
+
+                                <div>
+
+                                    <strong>
+                                        ${destination.name}
+                                    </strong>
+
+                                    <small>
+                                        ${destination.country}
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        `
+                    )
+                    .join("")}
+
+            </div>
+
+        `;
+
+    }
+
+
+    function selectDestination(id) {
+
+        const destination =
+            destinations.find(
+                item => item.id === id
+            );
+
+
+        if (!destination) return;
+
+
+        input.value =
+            destination.name;
+
+
+        localStorage.setItem(
+            "roam_explore_destination",
+            destination.name
+        );
+
+
+        document.getElementById(
+            "searchResults"
+        ).innerHTML = "";
+
+
+        renderDestination(
             destination
-        ) {
+        );
 
-            const container =
-                document.getElementById(
-                    "exploreContent"
-                );
+    }
 
-            container.innerHTML = `
 
-                <div class="section">
+    function renderDestination(
+        destination
+    ) {
 
-                    <span class="eyebrow">
-                        DESTINAZIONE
+        const container =
+            document.getElementById(
+                "destinationContent"
+            );
+
+
+        container.innerHTML = `
+
+            <section class="destination-header">
+
+                <div class="destination-flag">
+                    ${destination.flag}
+                </div>
+
+                <h2>
+                    ${destination.name}
+                </h2>
+
+                <span class="destination-country">
+                    ${destination.country}
+                </span>
+
+                <p class="destination-description">
+                    ${destination.description}
+                </p>
+
+            </section>
+
+
+            <section class="info-grid">
+
+                <div class="info-card">
+
+                    <span>
+                        VALUTA
                     </span>
 
-                    <h2
-                        style="
-                            font-size:32px;
-                            margin-top:6px;
-                            margin-bottom:24px;
-                        "
-                    >
-                        ${escapeHTML(destination)}
-                    </h2>
-
-                    <div class="quick-grid">
-
-                        <button class="quick-card">
-                            <span class="quick-icon">
-                                ◉
-                            </span>
-
-                            <strong>
-                                Da vedere
-                            </strong>
-
-                            <small>
-                                Luoghi imperdibili
-                            </small>
-                        </button>
-
-                        <button class="quick-card">
-                            <span class="quick-icon">
-                                ☆
-                            </span>
-
-                            <strong>
-                                Cose da fare
-                            </strong>
-
-                            <small>
-                                Attività ed esperienze
-                            </small>
-                        </button>
-
-                        <button class="quick-card">
-                            <span class="quick-icon">
-                                ◇
-                            </span>
-
-                            <strong>
-                                Dove mangiare
-                            </strong>
-
-                            <small>
-                                Ristoranti e locali
-                            </small>
-                        </button>
-
-                        <button class="quick-card">
-                            <span class="quick-icon">
-                                ◎
-                            </span>
-
-                            <strong>
-                                Zone
-                            </strong>
-
-                            <small>
-                                Scopri la città
-                            </small>
-                        </button>
-
-                    </div>
+                    <strong>
+                        ${destination.currency}
+                    </strong>
 
                 </div>
 
-            `;
 
-        }
+                <div class="info-card">
 
-    </script>
+                    <span>
+                        LINGUA
+                    </span>
+
+                    <strong>
+                        ${destination.language}
+                    </strong>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span>
+                        BUDGET MEDIO
+                    </span>
+
+                    <strong>
+                        €${destination.budget.medium}/giorno
+                    </strong>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span>
+                        PERIODO IDEALE
+                    </span>
+
+                    <strong>
+                        ${destination.bestTime
+                            .slice(0, 2)
+                            .join(" · ")}
+                    </strong>
+
+                </div>
+
+            </section>
+
+
+            ${renderPlaces(
+                destination
+            )}
+
+
+            ${renderActivities(
+                destination
+            )}
+
+
+            ${renderNeighborhoods(
+                destination
+            )}
+
+
+            ${renderRestaurants(
+                destination
+            )}
+
+
+            ${renderNightlife(
+                destination
+            )}
+
+
+            ${renderPhotoSpots(
+                destination
+            )}
+
+
+            ${renderItineraries(
+                destination
+            )}
+
+
+            <button
+                class="add-trip-cta"
+                onclick="createTripFromDestination('${destination.id}')"
+            >
+                ＋ Aggiungi ${destination.name} a un viaggio
+            </button>
+
+        `;
+
+    }
+
+
+    function renderPlaces(destination) {
+
+        return `
+
+            <section class="explore-section">
+
+                <div class="explore-section-header">
+
+                    <h3>
+                        Da vedere
+                    </h3>
+
+                    <span>
+                        ${destination.places.length} luoghi
+                    </span>
+
+                </div>
+
+
+                <div class="place-list">
+
+                    ${destination.places
+                        .map(
+                            place => `
+
+                                <article class="place-card">
+
+                                    <div class="place-main">
+
+                                        <strong>
+                                            ${place.name}
+                                        </strong>
+
+                                        <small>
+                                            ${place.category}
+                                            ·
+                                            ${place.duration}
+                                            <br>
+                                            ${place.description}
+                                        </small>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <div class="place-price">
+
+                                            ${
+                                                place.price === 0
+                                                    ? "Gratis"
+                                                    : `€${place.price}`
+                                            }
+
+                                        </div>
+
+                                        <button
+                                            class="save-place"
+                                            onclick='savePlace(${JSON.stringify(place)}, "${destination.id}")'
+                                        >
+                                            ♡
+                                        </button>
+
+                                    </div>
+
+                                </article>
+
+                            `
+                        )
+                        .join("")}
+
+                </div>
+
+            </section>
+
+        `;
+
+    }
+
+
+    function renderActivities(destination) {
+
+        return `
+
+            <section class="explore-section">
+
+                <div class="explore-section-header">
+
+                    <h3>
+                        Cose da fare
+                    </h3>
+
+                    <span>
+                        ${destination.activities.length}
+                        esperienze
+                    </span>
+
+                </div>
+
+
+                <div class="place-list">
+
+                    ${destination.activities
+                        .map(
+                            activity => `
+
+                                <article class="place-card">
+
+                                    <div class="place-main">
+
+                                        <strong>
+                                            ${activity.name}
+                                        </strong>
+
+                                        <small>
+                                            ${activity.category}
+                                            <br>
+                                            ${activity.description}
+                                        </small>
+
+                                    </div>
+
+                                    <button
+                                        class="save-place"
+                                        onclick='savePlace(${JSON.stringify(activity)}, "${destination.id}")'
+                                    >
+                                        ♡
+                                    </button>
+
+                                </article>
+
+                            `
+                        )
+                        .join("")}
+
+                </div>
+
+            </section>
+
+        `;
+
+    }
+
+
+    function renderNeighborhoods(
+        destination
+    ) {
+
+        return `
+
+            <section class="explore-section">
+
+                <div class="explore-section-header">
+
+                    <h3>
+                        Quartieri
+                    </h3>
+
+                </div>
+
+
+                <div class="neighborhood-list">
+
+                    ${destination.neighborhoods
+                        .map(
+                            neighborhood => `
+
+                                <article class="neighborhood">
+
+                                    <strong>
+                                        ${neighborhood.name}
+                                    </strong>
+
+                                    <p>
+                                        ${neighborhood.description}
+                                    </p>
+
+                                </article>
+
+                            `
+                        )
+                        .join("")}
+
+                </div>
+
+            </section>
+
+        `;
+
+    }
+
+
+    function renderRestaurants(
+        destination
+    ) {
+
+        return `
+
+            <section class="explore-section">
+
+                <div class="explore-section-header">
+
+                    <h3>
+                        Dove mangiare
+                    </h3>
+
+                    <span>
+                        ${destination.restaurants.length}
+                    </span>
+
+                </div>
+
+
+                <div class="place-list">
+
+                    ${destination.restaurants
+                        .map(
+                            restaurant => `
+
+                                <article class="place-card">
+
+                                    <div class="place-main">
+
+                                        <strong>
+                                            ${restaurant.name}
+                                        </strong>
+
+                                        <small>
+                                            ${restaurant.category}
+                                        </small>
+
+                                    </div>
+
+                                    <span class="place-price">
+                                        ${restaurant.price}
+                                    </span>
+
+                                </article>
+
+                            `
+                        )
+                        .join("")}
+
+                </div>
+
+            </section>
+
+        `;
+
+    }
+
+
+    function renderNightlife(
+        destination
+    ) {
+
+        return `
+
+            <section class="explore-section">
+
+                <div class="explore-section-header">
+
+                    <h3>
+                        Nightlife
+                    </h3>
+
+                </div>
+
+
+                <div class="photo-list">
+
+                    ${destination.nightlife
+                        .map(
+                            item => `
+
+                                <span class="photo-tag">
+                                    ${item.name}
+                                    ·
+                                    ${item.category}
+                                </span>
+
+                            `
+                        )
+                        .join("")}
+
+                </div>
+
+            </section>
+
+        `;
+
+    }
+
+
+    function renderPhotoSpots(
+        destination
+    ) {
+
+        return `
+
+            <section class="explore-section">
+
+                <div class="explore-section-header">
+
+                    <h3>
+                        Photo spots
+                    </h3>
+
+                </div>
+
+
+                <div class="photo-list">
+
+                    ${destination.photoSpots
+                        .map(
+                            spot => `
+
+                                <span class="photo-tag">
+                                    📷 ${spot}
+                                </span>
+
+                            `
+                        )
+                        .join("")}
+
+                </div>
+
+            </section>
+
+        `;
+
+    }
+
+
+    function renderItineraries(
+        destination
+    ) {
+
+        return `
+
+            <section class="explore-section">
+
+                <div class="explore-section-header">
+
+                    <h3>
+                        Itinerari
+                    </h3>
+
+                </div>
+
+
+                <div class="itinerary-grid">
+
+                    <button
+                        class="itinerary-card"
+                        onclick='showItinerary(${JSON.stringify(destination.itineraries.oneDay)})'
+                    >
+
+                        <span>
+                            1 GIORNO
+                        </span>
+
+                        <strong>
+                            Essenziale
+                        </strong>
+
+                    </button>
+
+
+                    <button
+                        class="itinerary-card"
+                        onclick='showItinerary(${JSON.stringify(destination.itineraries.threeDays)})'
+                    >
+
+                        <span>
+                            3 GIORNI
+                        </span>
+
+                        <strong>
+                            Completo
+                        </strong>
+
+                    </button>
+
+
+                    <button
+                        class="itinerary-card"
+                        onclick='showItinerary(${JSON.stringify(destination.itineraries.fiveDays)})'
+                    >
+
+                        <span>
+                            5 GIORNI
+                        </span>
+
+                        <strong>
+                            Immersivo
+                        </strong>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+        `;
+
+    }
+
+
+    function showItinerary(items) {
+
+        alert(
+            items
+                .map(
+                    (item, index) =>
+                        `${index + 1}. ${item}`
+                )
+                .join("\n")
+        );
+
+    }
+
+
+    function savePlace(
+        place,
+        destinationId
+    ) {
+
+        addSavedPlace({
+
+            id:
+                `${destinationId}-${place.id || place.name}`,
+
+            destinationId,
+
+            name: place.name,
+
+            category:
+                place.category || "Luogo"
+
+        });
+
+
+        alert(
+            `${place.name} salvato.`
+        );
+
+    }
+
+
+    function createTripFromDestination(
+        destinationId
+    ) {
+
+        const destination =
+            destinations.find(
+                item =>
+                    item.id === destinationId
+            );
+
+
+        if (!destination) return;
+
+
+        localStorage.setItem(
+            "roam_prefill_destination",
+            destination.name
+        );
+
+
+        window.location.href =
+            "viaggi.html";
+
+    }
+
+
+    function renderNotFound(query) {
+
+        document.getElementById(
+            "destinationContent"
+        ).innerHTML = `
+
+            <div class="empty-state">
+
+                <strong>
+                    Destinazione non trovata
+                </strong>
+
+                <p>
+                    “${escapeHTML(query)}”
+                    non è ancora presente nel database ROAM.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+
+    function escapeHTML(value) {
+
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+
+    }
+
+</script>
 
 </body>
 
