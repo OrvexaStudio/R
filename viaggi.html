@@ -414,6 +414,22 @@
 <script>
 
     document.addEventListener(
+        const prefilledDestination =
+    localStorage.getItem(
+        "roam_prefill_destination"
+    );
+
+if (prefilledDestination) {
+
+    document.getElementById(
+        "tripDestination"
+    ).value = prefilledDestination;
+
+    localStorage.removeItem(
+        "roam_prefill_destination"
+    );
+
+}
         "DOMContentLoaded",
         renderTrips
     );
