@@ -408,31 +408,48 @@
 
 </div>
 
-
 <script src="js/storage.js"></script>
 
 <script>
 
-    document.addEventListener(
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        renderTrips();
+
+
         const prefilledDestination =
-    localStorage.getItem(
-        "roam_prefill_destination"
-    );
+            localStorage.getItem(
+                "roam_prefill_destination"
+            );
 
-if (prefilledDestination) {
 
-    document.getElementById(
-        "tripDestination"
-    ).value = prefilledDestination;
+        if (prefilledDestination) {
 
-    localStorage.removeItem(
-        "roam_prefill_destination"
-    );
+            const destinationInput =
+                document.getElementById(
+                    "tripDestination"
+                );
 
-}
-        "DOMContentLoaded",
-        renderTrips
-    );
+
+            if (destinationInput) {
+
+                destinationInput.value =
+                    prefilledDestination;
+
+            }
+
+
+            localStorage.removeItem(
+                "roam_prefill_destination"
+            );
+
+        }
+
+    }
+);
+
 
 
     function openTripModal() {
