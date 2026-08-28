@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f5f0">
+
+    <title>Viaggi — ROAM</title>
+
+    <link rel="stylesheet" href="css/global.css">
+
+    <style>
+        .page-header {
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            margin-top: 5px;
+        }
+
+        .add-trip-button {
+            width: 100%;
+            height: 58px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            margin-bottom: 28px;
+
+            border-radius: 17px;
+
+            background: var(--text);
+            color: white;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: transform var(--transition);
+        }
+
+        .add-trip-button:active {
+            transform: scale(.98);
+        }
+
+        .trip-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .saved-trip {
+            overflow: hidden;
+
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+
+            background: var(--surface);
+        }
+
+        .saved-trip-cover {
+            height: 145px;
+
+            padding: 18px;
+
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #d8d3c9,
+                    #77736d
+                );
+
+            font-size: 28px;
+        }
+
+        .saved-trip-body {
+            padding: 18px;
+        }
+
+        .saved-trip-body h3 {
+            margin-bottom: 5px;
+
+            font-size: 22px;
+            letter-spacing: -.035em;
+        }
+
+        .saved-trip-date {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .saved-trip-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-top: 18px;
+        }
+
+        .trip-status {
+            padding: 6px 10px;
+
+            border-radius: 999px;
+
+            background: var(--surface-soft);
+
+            color: var(--text-secondary);
+
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .05em;
+        }
+
+        .open-trip {
+            padding: 9px 13px;
+
+            border-radius: 11px;
+
+            background: var(--text);
+            color: white;
+
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+
+            z-index: 500;
+
+            display: none;
+            align-items: flex-end;
+
+            background: rgba(0,0,0,.35);
+
+            backdrop-filter: blur(8px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 600px;
+
+            margin: 0 auto;
+
+            padding: 25px 20px 30px;
+
+            border-radius: 28px 28px 0 0;
+
+            background: var(--surface);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            font-size: 22px;
+        }
+
+        .close-modal {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+
+            background: var(--surface-soft);
+
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: var(--text-secondary);
+
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 52px;
+
+            padding: 0 15px;
+
+            outline: none;
+
+            border: 1px solid var(--border);
+            border-radius: 14px;
+
+            background: var(--bg);
+
+            color: var(--text);
+
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            border-color: rgba(23,23,23,.25);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            gap: 10px;
+        }
+
+        .create-button {
+            width: 100%;
+            height: 54px;
+
+            margin-top: 8px;
+
+            border-radius: 15px;
+
+            background: var(--text);
+            color: white;
+
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        @media (min-width: 700px) {
+            .trip-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .modal {
+                align-items: center;
+                padding: 20px;
+            }
+
+            .modal-content {
+                border-radius: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="app">
+
+    <header class="page-header">
+        <span class="eyebrow">I TUOI VIAGGI</span>
+        <h1>Viaggi</h1>
+    </header>
+
+    <button class="add-trip-button" onclick="openTripModal()">
+        <span>＋</span>
+        Nuovo viaggio
+    </button>
+
+    <section id="tripList" class="trip-list"></section>
+
+</main>
+
+
+<nav class="bottom-nav">
+
+    <a href="index.html" class="nav-item">
+        <span class="nav-icon">⌂</span>
+        <span>Home</span>
+    </a>
+
+    <a href="esplora.html" class="nav-item">
+        <span class="nav-icon">⌕</span>
+        <span>Esplora</span>
+    </a>
+
+    <a href="viaggi.html" class="nav-item active">
+        <span class="nav-icon">◈</span>
+        <span>Viaggi</span>
+    </a>
+
+    <a href="rullino.html" class="nav-item">
+        <span class="nav-icon">▣</span>
+        <span>Rullino</span>
+    </a>
+
+    <a href="profilo.html" class="nav-item">
+        <span class="nav-icon">○</span>
+        <span>Profilo</span>
+    </a>
+
+</nav>
+
+
+<!-- MODAL -->
+
+<div id="tripModal" class="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+
+            <h2>Nuovo viaggio</h2>
+
+            <button
+                class="close-modal"
+                onclick="closeTripModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="tripForm">
+
+            <div class="form-group">
+
+                <label for="tripDestination">
+                    DESTINAZIONE
+                </label>
+
+                <input
+                    id="tripDestination"
+                    type="text"
+                    placeholder="Es. Tokyo, Giappone"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="tripStart">
+                        PARTENZA
+                    </label>
+
+                    <input
+                        id="tripStart"
+                        type="date"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="tripEnd">
+                        RITORNO
+                    </label>
+
+                    <input
+                        id="tripEnd"
+                        type="date"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="tripBudget">
+                    BUDGET INIZIALE
+                </label>
+
+                <input
+                    id="tripBudget"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="Es. 1200"
+                >
+
+            </div>
+
+
+            <button
+                class="create-button"
+                type="submit"
+            >
+                Crea viaggio
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="js/storage.js"></script>
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        renderTrips
+    );
+
+
+    function openTripModal() {
+
+        document
+            .getElementById("tripModal")
+            .classList.add("active");
+
+        document
+            .getElementById("tripDestination")
+            .focus();
+
+    }
+
+
+    function closeTripModal() {
+
+        document
+            .getElementById("tripModal")
+            .classList.remove("active");
+
+    }
+
+
+    document
+        .getElementById("tripModal")
+        .addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target.id === "tripModal"
+                ) {
+                    closeTripModal();
+                }
+
+            }
+        );
+
+
+    document
+        .getElementById("tripForm")
+        .addEventListener(
+            "submit",
+            event => {
+
+                event.preventDefault();
+
+                const destination =
+                    document
+                        .getElementById(
+                            "tripDestination"
+                        )
+                        .value
+                        .trim();
+
+                const startDate =
+                    document
+                        .getElementById(
+                            "tripStart"
+                        )
+                        .value;
+
+                const endDate =
+                    document
+                        .getElementById(
+                            "tripEnd"
+                        )
+                        .value;
+
+                const budget =
+                    Number(
+                        document
+                            .getElementById(
+                                "tripBudget"
+                            )
+                            .value || 0
+                    );
+
+
+                if (
+                    new Date(endDate) <
+                    new Date(startDate)
+                ) {
+
+                    alert(
+                        "La data di ritorno deve essere successiva alla partenza."
+                    );
+
+                    return;
+                }
+
+
+                const trip = {
+
+                    id:
+                        crypto.randomUUID(),
+
+                    destination,
+
+                    startDate,
+
+                    endDate,
+
+                    budget,
+
+                    createdAt:
+                        new Date().toISOString(),
+
+                    itinerary: [],
+
+                    bookings: [],
+
+                    places: [],
+
+                    expenses: [],
+
+                    photos: []
+
+                };
+
+
+                addTrip(trip);
+
+                closeTripModal();
+
+                event.target.reset();
+
+                renderTrips();
+
+            }
+        );
+
+
+    function renderTrips() {
+
+        const container =
+            document.getElementById(
+                "tripList"
+            );
+
+        const trips = getTrips();
+
+
+        if (!trips.length) {
+
+            container.innerHTML = `
+
+                <div class="empty-state">
+
+                    <strong>
+                        Il tuo prossimo viaggio inizia qui
+                    </strong>
+
+                    <p>
+                        Crea un viaggio per organizzare
+                        itinerario, luoghi, prenotazioni,
+                        budget e foto.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        const sortedTrips =
+            [...trips].sort(
+                (a, b) =>
+                    new Date(a.startDate) -
+                    new Date(b.startDate)
+            );
+
+
+        container.innerHTML =
+            sortedTrips
+                .map(trip => {
+
+                    const start =
+                        formatTripDate(
+                            trip.startDate
+                        );
+
+                    const end =
+                        formatTripDate(
+                            trip.endDate
+                        );
+
+                    const status =
+                        getTripStatus(trip);
+
+
+                    return `
+
+                        <article class="saved-trip">
+
+                            <div class="saved-trip-cover">
+                                ${getDestinationEmoji(trip.destination)}
+                            </div>
+
+                            <div class="saved-trip-body">
+
+                                <h3>
+                                    ${escapeHTML(
+                                        trip.destination
+                                    )}
+                                </h3>
+
+                                <span class="saved-trip-date">
+                                    ${start} — ${end}
+                                </span>
+
+
+                                <div class="saved-trip-footer">
+
+                                    <span class="trip-status">
+                                        ${status}
+                                    </span>
+
+                                    <button
+                                        class="open-trip"
+                                        onclick="openTrip('${trip.id}')"
+                                    >
+                                        Apri viaggio
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    `;
+
+                })
+                .join("");
+
+    }
+
+
+    function openTrip(id) {
+
+        localStorage.setItem(
+            "roam_current_trip",
+            id
+        );
+
+        window.location.href =
+            "viaggio.html";
+
+    }
+
+
+    function formatTripDate(date) {
+
+        return new Date(date)
+            .toLocaleDateString(
+                "it-IT",
+                {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+    }
+
+
+    function getTripStatus(trip) {
+
+        const now = new Date();
+        const start = new Date(trip.startDate);
+        const end = new Date(trip.endDate);
+
+
+        if (now < start) {
+            return "IN PROGRAMMA";
+        }
+
+        if (now >= start && now <= end) {
+            return "IN CORSO";
+        }
+
+        return "COMPLETATO";
+
+    }
+
+
+    function getDestinationEmoji(destination) {
+
+        const text =
+            destination.toLowerCase();
+
+        if (
+            text.includes("italia") ||
+            text.includes("roma") ||
+            text.includes("milano") ||
+            text.includes("venezia")
+        ) {
+            return "🇮🇹";
+        }
+
+        if (
+            text.includes("francia") ||
+            text.includes("parigi")
+        ) {
+            return "🇫🇷";
+        }
+
+        if (
+            text.includes("giappone") ||
+            text.includes("tokyo")
+        ) {
+            return "🇯🇵";
+        }
+
+        if (
+            text.includes("spagna") ||
+            text.includes("barcellona") ||
+            text.includes("madrid")
+        ) {
+            return "🇪🇸";
+        }
+
+        if (
+            text.includes("inghilterra") ||
+            text.includes("londra") ||
+            text.includes("uk")
+        ) {
+            return "🇬🇧";
+        }
+
+        return "✈";
+    }
+
+
+    function escapeHTML(value) {
+
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+
+    }
+
+</script>
+
+</body>
+</html>
