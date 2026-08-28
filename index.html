@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <title>ROAM — Travel differently</title>
+
+    <meta name="theme-color" content="#f7f5f0">
+    <meta name="description" content="ROAM — Organizza, scopri e vivi i tuoi viaggi.">
+
+    <link rel="stylesheet" href="css/global.css">
+</head>
+
+<body>
+
+    <main class="app">
+
+        <!-- HOME -->
+        <section class="page active" id="home-page">
+
+            <header class="top-header">
+                <div>
+                    <span class="eyebrow">BUONGIORNO</span>
+                    <h1>Pronto a partire?</h1>
+                </div>
+
+                <button class="icon-button" aria-label="Profilo" onclick="navigate('profilo.html')">
+                    <span>F</span>
+                </button>
+            </header>
+
+
+            <!-- SEARCH -->
+            <div class="hero-search">
+
+                <div class="search-icon">⌕</div>
+
+                <input
+                    type="text"
+                    id="destinationInput"
+                    placeholder="Dove vuoi andare?"
+                    autocomplete="off"
+                >
+
+                <button onclick="searchDestination()">
+                    →
+                </button>
+
+            </div>
+
+
+            <!-- NEXT TRIP -->
+            <section class="section">
+
+                <div class="section-heading">
+                    <h2>Il tuo prossimo viaggio</h2>
+                    <button onclick="navigate('viaggi.html')">Vedi tutti</button>
+                </div>
+
+                <div id="nextTripContainer"></div>
+
+            </section>
+
+
+            <!-- QUICK ACTIONS -->
+            <section class="section">
+
+                <div class="section-heading">
+                    <h2>Scopri ROAM</h2>
+                </div>
+
+                <div class="quick-grid">
+
+                    <button class="quick-card" onclick="navigate('esplora.html')">
+                        <span class="quick-icon">⌕</span>
+                        <strong>Esplora</strong>
+                        <small>Scopri nuove destinazioni</small>
+                    </button>
+
+                    <button class="quick-card" onclick="navigate('viaggi.html')">
+                        <span class="quick-icon">＋</span>
+                        <strong>Nuovo viaggio</strong>
+                        <small>Inizia a organizzarlo</small>
+                    </button>
+
+                    <button class="quick-card" onclick="navigate('rullino.html')">
+                        <span class="quick-icon">▣</span>
+                        <strong>Rullino</strong>
+                        <small>I tuoi ricordi</small>
+                    </button>
+
+                    <button class="quick-card">
+                        <span class="quick-icon">♡</span>
+                        <strong>Salvati</strong>
+                        <small>I tuoi luoghi preferiti</small>
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- INSPIRATION -->
+            <section class="section">
+
+                <div class="section-heading">
+                    <h2>Lasciati ispirare</h2>
+                </div>
+
+                <div class="destination-scroll">
+
+                    <article class="destination-card">
+                        <div class="destination-image rome">
+                            <span>🇮🇹</span>
+                        </div>
+
+                        <div class="destination-info">
+                            <strong>Roma</strong>
+                            <small>Italia</small>
+                        </div>
+                    </article>
+
+                    <article class="destination-card">
+                        <div class="destination-image paris">
+                            <span>🇫🇷</span>
+                        </div>
+
+                        <div class="destination-info">
+                            <strong>Parigi</strong>
+                            <small>Francia</small>
+                        </div>
+                    </article>
+
+                    <article class="destination-card">
+                        <div class="destination-image tokyo">
+                            <span>🇯🇵</span>
+                        </div>
+
+                        <div class="destination-info">
+                            <strong>Tokyo</strong>
+                            <small>Giappone</small>
+                        </div>
+                    </article>
+
+                </div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+
+    <!-- BOTTOM NAVIGATION -->
+
+    <nav class="bottom-nav">
+
+        <a href="index.html" class="nav-item active">
+            <span class="nav-icon">⌂</span>
+            <span>Home</span>
+        </a>
+
+        <a href="esplora.html" class="nav-item">
+            <span class="nav-icon">⌕</span>
+            <span>Esplora</span>
+        </a>
+
+        <a href="viaggi.html" class="nav-item">
+            <span class="nav-icon">◈</span>
+            <span>Viaggi</span>
+        </a>
+
+        <a href="rullino.html" class="nav-item">
+            <span class="nav-icon">▣</span>
+            <span>Rullino</span>
+        </a>
+
+        <a href="profilo.html" class="nav-item">
+            <span class="nav-icon">○</span>
+            <span>Profilo</span>
+        </a>
+
+    </nav>
+
+
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>
